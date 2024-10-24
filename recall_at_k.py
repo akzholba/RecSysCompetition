@@ -1,27 +1,22 @@
-#https://insidelearningmachines.com/precisionk_and_recallk/ код для метрики взяли отсюда
-import pandas as pd
-
-def recall_at_k(df: pd.DataFrame, k: int, y_test: str, y_pred: str) -> float:
+import numpy as np
+def recall_at_k(y_true: List[int], y_pred: List[List[np.ndarray]], k: int):
     """
-    Function to compute recall@k for an input boolean dataframe
-    
-    Inputs:
-        df     -> pandas dataframe containing boolean columns y_test & y_pred
-        k      -> integer number of items to consider
-        y_test -> string name of column containing actual user input
-        y-pred -> string name of column containing recommendation output
-        
-    Output:
-        Floating-point number of recall value for k items
-    """    
-    # extract the k rows
-    dfK = df.head(k)
-    # compute number of all relevant items
-    denominator = df[y_test].sum()
-    # compute number of recommended items that are relevant @k
-    numerator = dfK[dfK[y_pred] & dfK[y_test]].shape[0]
-    # return result
-    if denominator > 0:
-        return numerator/denominator
-    else:
-        return None
+    Calculates recall at k ranking metric.
+
+    Args:
+        y_true: Labels. Not used in the calculation of the metric.
+        y_predicted: Predictions.
+            Each prediction contains ranking score of all ranking candidates for the particular data sample.
+            It is supposed that the ranking score for the true candidate goes first in the prediction.
+
+    Returns:
+        Recall at k
+    """
+    num_examples = float(len(y_pred))
+    predictions = np.array(y_pred)
+    predictions = np.flip(np.argsort(predictions, -1), -1)[:, :k]
+    num_correct = 0
+    for el in predictions:
+        if 0 in el:
+            num_correct += 1
+    return float(num_correct) / num_examples
