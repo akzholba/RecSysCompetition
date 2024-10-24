@@ -1,22 +1,37 @@
-import numpy as np
-def recall_at_k(y_true: List[int], y_pred: List[List[np.ndarray]], k: int):
-    """
-    Calculates recall at k ranking metric.
+import pandas as pd
 
-    Args:
-        y_true: Labels. Not used in the calculation of the metric.
-        y_predicted: Predictions.
-            Each prediction contains ranking score of all ranking candidates for the particular data sample.
-            It is supposed that the ranking score for the true candidate goes first in the prediction.
-
-    Returns:
-        Recall at k
+def recall_at_k_overall(df, actual_col, predicted_col, k=10):
     """
-    num_examples = float(len(y_pred))
-    predictions = np.array(y_pred)
-    predictions = np.flip(np.argsort(predictions, -1), -1)[:, :k]
-    num_correct = 0
-    for el in predictions:
-        if 0 in el:
-            num_correct += 1
-    return float(num_correct) / num_examples
+    Вычисляет общий Recall@K для всех пользователей в DataFrame.
+
+    Параметры:
+    - df (pd.DataFrame): DataFrame, содержащий фактически релевантные и предсказанные элементы для каждого пользователя.
+    - actual_col (str): Название колонки с фактически релевантными элементами (список).
+    - predicted_col (str): Название колонки с предсказанными элементами (список).
+    - k (int): Количество топ рекомендаций, по умолчанию 10.
+
+    Возвращает:
+    - float: Общее значение метрики Recall@K для всех пользователей.
+    """
+    # Переменные для подсчета общего числа релевантных элементов и тех, что попали в топ-K рекомендаций
+    total_relevant_items = 0
+    relevant_items_found = 0
+    
+    # Проходим по каждой строке DataFrame
+    for _, row in df.iterrows():
+        actual_items = set(row[actual_col])
+        predicted_items = set(row[predicted_col][:k])  # Предсказанные предметы ограничиваем топ-K
+        
+        # Общее количество релевантных предметов
+        total_relevant_items += len(actual_items)
+        
+        # Количество найденных релевантных предметов
+        relevant_items_found += len(actual_items & predicted_items)
+    
+    # Если нет релевантных предметов, возвращаем 0, чтобы избежать деления на 0
+    if total_relevant_items == 0:
+        return 0.0
+    
+    # Вычисляем общий Recall@K
+    recall = relevant_items_found / total_relevant_items
+    return recall
