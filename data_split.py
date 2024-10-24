@@ -1,6 +1,6 @@
 import pandas as pd
 
-def split_data_by_user(df, test_size=3, val_size=3):
+def split_data_by_user(df, test_size=1, val_size=1):
     """
     Функция разделения данных на обучающую, валидационную и тестовую выборки.
     
