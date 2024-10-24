@@ -1,4 +1,6 @@
 #https://insidelearningmachines.com/precisionk_and_recallk/ код для метрики взяли отсюда
+import pandas as pd
+
 def recall_at_k(df: pd.DataFrame, k: int, y_test: str, y_pred: str) -> float:
     """
     Function to compute recall@k for an input boolean dataframe
