@@ -25,11 +25,12 @@ def recall_at_k_overall(df, actual_col, predicted_col, k=10):
         # Общее количество релевантных предметов
         total_relevant_items += len(actual_items)
         
-        # Количество найденных релевантных предметов
-        relevant_items_found += len(actual_items & predicted_items)
+        # Количество найденных релевантных предметовd
+        relevant_items_found += len(actual_items.intersection(predicted_items))
     
     # Если нет релевантных предметов, возвращаем 0, чтобы избежать деления на 0
     if total_relevant_items == 0:
+        print('Произошла неприятная ситуевина')
         return 0.0
     
     # Вычисляем общий Recall@K
