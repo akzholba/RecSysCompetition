@@ -10,7 +10,7 @@ import pandas as pd
 from numpy.random import default_rng
 
 from session_handler import State
-from types import PYSPARK_AVAILABLE, DataFrameLike, MissingImportType, NumType, SparkDataFrame
+from typesBert import PYSPARK_AVAILABLE, DataFrameLike, MissingImportType, NumType, SparkDataFrame
 
 if PYSPARK_AVAILABLE:
     import pyspark.sql.types as st
