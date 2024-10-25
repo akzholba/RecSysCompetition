@@ -1,7 +1,5 @@
 from tqdm import tqdm
 import numpy as np
-import pandas as pd
-
 class TopN:
 
     def __init__(self, create_user_item_matrix, user_features_df, item_features_df):
@@ -22,8 +20,7 @@ class TopN:
         return predictions
     
     def fit(self, X, y):
-        user_item_matrix = self.create_user_item_matrix(
-            pd.concat([X, y]), self.user_features_df, self.item_features_df)
+        user_item_matrix = self.create_user_item_matrix(X, self.user_features_df, self.item_features_df)
         # смотрим на популярность фильма
         popularity = np.sum(user_item_matrix > 0, axis=0)
 
