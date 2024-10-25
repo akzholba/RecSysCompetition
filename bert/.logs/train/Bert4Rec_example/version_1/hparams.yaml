@@ -1,0 +1,38 @@
+block_count: 2
+dropout_rate: 0.5
+enable_embedding_tying: false
+enable_positional_embedding: true
+head_count: 4
+hidden_size: 300
+loss_sample_count: null
+loss_type: CE
+lr_scheduler_factory: null
+max_seq_len: 100
+negative_sampling_strategy: global_uniform
+negatives_sharing: false
+optimizer_factory: !!python/object:optimizer_utils.FatOptimizerFactory
+  betas: !!python/tuple
+  - 0.9
+  - 0.98
+  learning_rate: 0.001
+  optimizer: adam
+  sgd_momentum: 0.0
+  weight_decay: 0.0
+pass_per_transformer_block_count: 1
+tensor_schema: !!python/object:schema.TensorSchema
+  _tensor_schema:
+    item_id_seq: !!python/object:schema.TensorFeatureInfo
+      _cardinality: 3706
+      _embedding_dim: 300
+      _feature_hint: !!python/object/apply:schema.FeatureHint
+      - item_id
+      _feature_sources:
+      - !!python/object:schema.TensorFeatureSource
+        _column: item_id
+        _index: null
+        _source: !!python/object/apply:schema.FeatureSource
+        - interactions
+      _feature_type: !!python/object/apply:schema.FeatureType
+      - categorical
+      _is_seq: true
+      _name: item_id_seq

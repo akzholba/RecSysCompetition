@@ -1,12 +1,16 @@
 import pandas as pd
 
+
 def split_data_by_user(df, test_size=1):
+
     """
     Функция разделения данных на обучающую, валидационную и тестовую выборки.
     
     :param df: DataFrame с данными
     :param test_size: размер тестового набора (по умолчанию 1)
-    :return: три DataFrame: train_df, test_df
+
+    :return: два DataFrame: train_df, test_df
+
     """
     # Группируем данные по каждому пользователю
     grouped = df.groupby('user_id')
@@ -33,3 +37,4 @@ def split_data_by_user(df, test_size=1):
     test_df = df.loc[test_indices].copy()
     
     return train_df, test_df
+
