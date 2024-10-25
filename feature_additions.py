@@ -47,7 +47,7 @@ def get_item_features_from_train(train_df, item_features):
     
     return item_features_full[['item_id', 'num_genres', 'movie_avg_rating', 'movie_num_ratings']]
 
-def join_features_to_test(test_df, user_features, item_features):
+def join_features(test_df, user_features, item_features):
     """
     Присоединяет признаки пользователей и фильмов к тестовому набору данных.
     """
@@ -58,3 +58,16 @@ def join_features_to_test(test_df, user_features, item_features):
     test_df = pd.merge(test_df, item_features, on='item_id', how='left')
     
     return test_df
+
+# Пример использования функции 
+# from feature_additions import *
+
+
+# user_features_from_train = get_user_features_from_train(train_df, item_features_df)
+# item_features_from_train = get_item_features_from_train(train_df, item_features_df)
+
+# # Присоединение признаков к тестовому набору данных
+# test_df_with_features = join_features(test_df, user_features_from_train, item_features_from_train)
+
+# # Итоговый тестовый датасет с признаками
+# test_df_with_features.head()
