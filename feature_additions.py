@@ -47,7 +47,7 @@ def get_item_features_from_train(train_df, item_features):
     
     return item_features_full[['item_id', 'num_genres', 'movie_avg_rating', 'movie_num_ratings']]
 
-def join_features_to_test(test_df, user_features, item_features):
+def join_features(test_df, user_features, item_features):
     """
     Присоединяет признаки пользователей и фильмов к тестовому набору данных.
     """
